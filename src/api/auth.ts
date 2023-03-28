@@ -14,18 +14,28 @@ interface AuthResponse {
   accessToken: string;
 }
 
-const API_URL = 'http://localhost:8080/api/auth/';
+const API_URL = 'http://localhost:8080/';
 
 class AuthService {
-  async login(credentials: LoginCredentials): Promise<void> {
-    const response = await axios.post<AuthResponse>(API_URL + 'signin', credentials);
-    if (response.data.accessToken) {
-      localStorage.setItem('user', JSON.stringify(response.data));
+  async login(email: string, password: string): Promise<void> {
+  
+	const configHeaders = {
+		"content-type": "application/json",
+		"Accept": "application/json"//,
+		//"Authorization:": "bearer " + localStorage.getItem('token');
+	};
+	
+    const response = await axios.post<AuthResponse>(API_URL + 'token', {'username': email, 'password': password}, {headers: configHeaders});
+
+	if (response.status == 200 && response.data) {
+      localStorage.setItem('user', email);
+	  localStorage.setItem('token', response.data);
     }
   }
 
-  logout(): void {
+  logout(): void { 
     localStorage.removeItem('user');
+	localStorage.removeItem('token');
   }
 
   async register(credentials: RegisterCredentials): Promise<void> {
@@ -34,7 +44,7 @@ class AuthService {
 
   getCurrentUser(): AuthResponse | null {
     const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    return user;// ? JSON.parse(user) : null;
   }
   
   useAuth() {

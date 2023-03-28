@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Welcome, {{ user?.username }}!</h1>
-    <button v-if="!isLoggedIn" class="btn btn-primary" @click="handleLogout">Logout</button>
+    <button v-if="isLoggedIn" class="btn btn-primary" @click="handleLogout">Logout</button>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default defineComponent({
 	
 	const isLoggedIn = () => authService.getCurrentUser() != null;
 
-    return { handleLogout, isLoggedIn };
+    return { handleLogout, isLoggedIn, user: {username: authService.getCurrentUser()} };
   },
 });
 </script>

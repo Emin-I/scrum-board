@@ -11,7 +11,7 @@
         <input type="password" id="password" v-model="form.password" required>
       </div>
       <div class="form-control">
-        <button type="submit" :disabled="loading" v-on:click="loginHandler">
+        <button type="submit" :disabled="loading" v-on:click="login">
           <span v-if="loading" class="spinner-border spinner-border-sm"></span>
           <span v-else>Login</span>
         </button>
@@ -25,18 +25,8 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { default as authService } from '../api/auth';
-/*
-methods: {
-  loginHandler(event) {
-    // `this` inside methods points to the current active instance
-    alert(`Hello ${this.name}!`)
-    // `event` is the native DOM event
-    if (event) {
-      alert(event.target.tagName)
-    }
-  }
-}
-*/
+
+
 export default defineComponent({
   name: 'Login',
   setup() {
@@ -78,7 +68,7 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+   
   }
 
   .form-control {
